@@ -1,0 +1,3 @@
+// application
+require('./example/main');
+

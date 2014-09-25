@@ -1,0 +1,23 @@
+@import '../../lib/components/pageslider/pageslider.css';
+.page1 {
+  background: red;
+}
+.page2 {
+  background: blue;
+}
+.page {
+  height: 100%;
+}
+#master-container {
+  background: gray;
+  position: relative;
+  height: 100px;
+}
+.page {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+}
