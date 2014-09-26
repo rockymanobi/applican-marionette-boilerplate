@@ -1,3 +1,5 @@
 sample
 node_modules
 .DS_Store
+vendor/bundle
+.sass-cache

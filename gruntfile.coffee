@@ -36,29 +36,28 @@ module.exports = (grunt) =>
         #          dest: 'dst/js/build.js'     # 出力するファイル名
         #        options:
         #          transform: ['node-underscorify']
-      less:
-        compile: 
-          options: 
-            compress: false,
-            syncimport: true
+      sass:                              
+        dist: 
+          options:                        
+            bundleExec: true
           files: 
-            "web/css/app.css": "src/css/application.less"
+            "web/css/app.css": "src/css/application.scss"
       esteWatch:
           options:
               dirs: [
                   "src/css/**",
                   "src/js/**"
               ]
-          less: (path) ->
-              ['less','browserify']
+          sass: (path) ->
+              ['sass','browserify']
           js: (path) ->
             if /vendor\.js$/.test(path)
               return ["makeAll"];
-            ['less','browserify']
-  grunt.loadNpmTasks 'grunt-contrib-less'
+            ['sass','browserify']
+  grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-este-watch'
-  grunt.registerTask 'make', ['less','browserify:app']
-  grunt.registerTask 'makeAll', ['less','browserify']
+  grunt.registerTask 'make', ['sass','browserify:app']
+  grunt.registerTask 'makeAll', ['sass','browserify']
   grunt.registerTask 'default', ['makeAll',  'esteWatch']
