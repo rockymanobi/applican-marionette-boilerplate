@@ -78,7 +78,6 @@ module.exports = (function( $ ){
           $(e.target).remove();
           _this.currentView.destroy();
           _this.currentView = renderedView;
-          _this.renderNotice();
           _this.toTop();
           if (_this.afterSlide) {
             return _this.afterSlide();
@@ -91,21 +90,11 @@ module.exports = (function( $ ){
       return this.currentPage = page;
     },
 
-    renderNotice : function() {
-      //return noticeManager.showNotice();
-    },
-
     toTop : function() {
       return setTimeout(function() {
         return window.scrollTo(0, 0);
       }, 100);
     },
-
-    clearTimerActions : function() {
-      return $.each(window.VIP.TimerActions, function(key, timer) {
-        return clearInterval(timer);
-      });
-    }
 
 
   };
@@ -120,7 +109,6 @@ module.exports = (function( $ ){
 },{}],2:[function(require,module,exports){
 // application
 require('./example/main');
-
 
 },{"./example/main":3}],3:[function(require,module,exports){
 var $ = require('jquery');
@@ -147,7 +135,7 @@ module.exports = (function(){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="page1">\n  page1\n</div>\n';
+__p+='<div class="page1">\n  <ul class="A-NAVS">\n    <li><span class="NAV-CONTENT"><a href="#page2">hoge</a></span> &gt;</li>\n    <li><span class="NAV-CONTENT">hoge</span> &gt;</li>\n    <li><span class="NAV-CONTENT">hoge</span> &gt;</li>\n    <li><span class="NAV-CONTENT">hoge</span> &gt;</li>\n  </ul>\n</div>\n';
 }
 return __p;
 };

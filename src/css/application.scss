@@ -1,8 +1,8 @@
 @import "./example/main";
+@import "./base";
 @import '../../lib/components/pageslider/pageslider.css.scss';
 
 #master-container{
-  background: gray;
   position: relative;
   height: 100px;
 }

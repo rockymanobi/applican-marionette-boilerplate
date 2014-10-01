@@ -2,10 +2,7 @@ module.exports = (grunt) =>
 
   grunt.initConfig
       pkg: grunt.file.readJSON('package.json')
-      #clean:
-      #  deleteReleaseFolder: {
-      #      src: 'dst/js/*'
-      #  }
+      clean: ['web/css/app.css', 'web/css/app.css.map']
       browserify:  # タスク名. $ grunt browserify で実行できる
         app:
           files: "web/js/app.js" : [ "src/js/application.js" ]
@@ -48,12 +45,14 @@ module.exports = (grunt) =>
                   "src/css/**",
                   "src/js/**"
               ]
-          sass: (path) ->
-              ['sass','browserify']
+          scss: (path) ->
+              ['sass']
           js: (path) ->
             if /vendor\.js$/.test(path)
               return ["makeAll"];
-            ['sass','browserify']
+            ['browserify']
+          html: (path) ->
+            ['browserify']
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-browserify'
