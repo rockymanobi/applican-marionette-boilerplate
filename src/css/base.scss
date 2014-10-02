@@ -3,3 +3,16 @@ ul,body{
   padding: 0;
 }
 
+a, a:link, a:visited{
+  text-decoration: none;
+  color: inherit;
+}
+
+.hide{
+  display: none !important;
+}
+
+.RELATIVE-WRAPPER{
+  position: relative;
+}
+

@@ -6,13 +6,13 @@
 	<property name="KEEP_SCREEN_ON">false</property>
 
 	<property name="NATIVE_SLIDE_MENU">false</property>
-	<property name="NATIVE_SLIDE_MENU_DEFAULT_COUNT">5</property>
-	<property name="NATIVE_SLIDE_MENU_DEFAULT_IMAGES"></property>
-	<property name="NATIVE_SLIDE_MENU_DEFAULT_RESET">false</property>
-	<property name="NATIVE_SLIDE_MENU_DEFAULT_URLS"></property>
-	<property name="NATIVE_SLIDE_MENU_HEIGHT">40</property>
-	<property name="NATIVE_SLIDE_MENU_POSITION">top</property>
+	<property name="NATIVE_SLIDE_MENU_POSITION">left</property>
 	<property name="NATIVE_SLIDE_MENU_WIDTH">80</property>
+	<property name="NATIVE_SLIDE_MENU_HEIGHT">40</property>
+	<property name="NATIVE_SLIDE_MENU_DEFAULT_COUNT">5</property>
+	<property name="NATIVE_SLIDE_MENU_DEFAULT_RESET">true</property>
+	<property name="NATIVE_SLIDE_MENU_DEFAULT_IMAGES">applican,menu1,menu2,menu3,menu4</property>
+	<property name="NATIVE_SLIDE_MENU_DEFAULT_URLS">index.html,http://www.youtube.com/,http://www.bing.com/,http://www.apple.com/,http://www.yahoo.co.jp/</property>
 
 	<property name="NATIVE_TAB_AUTO_RELOAD1">false</property>
 	<property name="NATIVE_TAB_AUTO_RELOAD2">true</property>

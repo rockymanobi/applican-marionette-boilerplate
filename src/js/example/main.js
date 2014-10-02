@@ -1,19 +1,12 @@
-var $ = require('jquery');
-var Backbone = require('backbone');
-var PageSlider = require('../../../lib/components/pageslider/pageslider')($);
+window.App = {};
 
-module.exports = (function(){
+document.addEventListener("deviceready", onDeviceReady, false);
 
-  $(document).ready(function(){
+function onDeviceReady(){
+  
+  App = require('./app.js');
+  App.start();
 
-    var pageSlider = new PageSlider({
-      container: $('#master-container')
-    });
 
-    var Router = require('./router')(pageSlider);
-    var router = new Router();
-    Backbone.history.start();
+};
 
-  });
-
-})();

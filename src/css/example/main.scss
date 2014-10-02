@@ -1,11 +1,44 @@
+$mainColor: #4D5EC7;
+
 .page1{
-}
-.page2{
-  background: blue;
 }
 .page{
   height: 100%;
 }
+
+#APPLICAN-SAMPLE{
+  .APP-HEADER{
+    text-align: center;
+    border: solid 0px $mainColor;
+    border-bottom-width: 3px;
+
+    .HEADER-INNER-WRAPPER{
+      width: 100%;
+      height: 100%;
+
+      .HEADER-LEFT{
+        position: absolute;
+        left: 0px;
+        z-index: 1;
+      }
+      .HEADER-RIGHT{
+        position: absolute;
+        right: 0px;
+        z-index: 1;
+      }
+      .BACK-BUTTON{
+        display: inline-block;
+        height: 50px;
+
+      }
+
+    }
+
+  }
+
+
+}
+
 
 
 
@@ -23,19 +56,16 @@ body{
   font-size: 18px;
 
   li{
-    height: 80px;
-    line-height: 80px;
+    height: 65px;
+    line-height: 65px;
     box-sizing: border-box;
     padding: 0px 20px;
     color: white;
 
-    &:nth-child(3n+1){ background-color: rgba(0,230,0,0.4);} 
-    &:nth-child(3n+2){ background-color: rgba(0,180,0,0.4);} 
-    &:nth-child(3n+0){ background-color: rgba(0,150,0,0.4);} 
+    &:nth-child(3n+1){ background-color: rgba( 0, 0, 0,0.3);} 
+    &:nth-child(3n+2){ background-color: rgba(20,20,20,0.3);} 
+    &:nth-child(3n+0){ background-color: rgba(40,40,40,0.3);} 
 
-    .NAV-CONTENT{
-
-    }
   }
 
 };
