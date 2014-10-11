@@ -1,16 +1,22 @@
 $mainColor: #4D5EC7;
 
-.page1{
+.BACKBONE-PAGE{
+  background: url('../image/applican.png') no-repeat;
+  background-position: 50% 25%;
+  background-color: white;
 }
 .page{
   height: 100%;
+
 }
 
 #APPLICAN-SAMPLE{
   .APP-HEADER{
+    display: none;
     text-align: center;
     border: solid 0px $mainColor;
     border-bottom-width: 3px;
+    z-index: 1100;
 
     .HEADER-INNER-WRAPPER{
       width: 100%;
@@ -69,3 +75,7 @@ body{
   }
 
 };
+
+.VERTICAL-NAV{
+  box-sizing: border-box;
+}

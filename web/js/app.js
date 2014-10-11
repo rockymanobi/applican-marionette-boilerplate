@@ -1,4 +1,94 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+
+module.exports = (function( $ ){
+
+  var _this;
+  var EdgeSwipeHandler = function(options){
+    _this = this;
+    this.mainContentSelector = options.mainContentSelector;
+    this.verticalNavSelector = options.verticalNavSelector;
+    this.diffX = 0;
+    this.startPositionX = 0;
+
+    // To handle edge swipe gesture,
+    // add invisible object to DOM on the left edge of the window
+    this.swipeTargetSelector = "#swipe_edge";
+    $('body').append('<div id="swipe_edge"></div>');
+
+    this._setUpClasses();
+    this._bindEvents();
+  };
+
+  EdgeSwipeHandler.prototype = {
+    open: function(){
+      console.log(this);
+      $(_this.swipeTargetSelector).addClass('expand');
+      $(".edge_swipe_content").addClass('expand');
+      $(".edge_swipe_nav").addClass('expand');
+    },
+    close: function(){
+      $(_this.swipeTargetSelector).removeClass('expand');
+      $(".edge_swipe_content").removeClass('expand');
+      $(".edge_swipe_nav").removeClass('expand');
+    },
+
+    _bindEvents: function(){
+      $('body').on('click','.edge_swipe_content',this.close); 
+      $(this.swipeTargetSelector)
+        .on('touchstart', this._onTouchStart)
+        .on('touchmove', this._dragEdge)
+        .on('touchend',this._releaseEdge);
+    },
+    _setUpClasses: function(){
+      var length;
+      length = this.mainContentSelector.length;
+      for( var i = 0; i < length; i++ ){
+        $(this.mainContentSelector[i]).addClass('edge_swipe_content');
+      }
+      $(this.verticalNavSelector).addClass('edge_swipe_nav');
+    },
+    _onTouchStart: function(e){
+      e.preventDefault();
+      _this.startPositionX = e.originalEvent.touches[0].pageX;
+    },
+    _dragEdge: function(e){
+      var x = e.originalEvent.touches[0].pageX;
+      e.preventDefault();
+      _this.diffX  = x - _this.startPositionX;
+
+      if( Math.abs(_this.diffX) > 120 ){
+        return;
+      }
+      if( x > 250 ){
+        return;
+      }
+      
+      $(".edge_swipe_content").css({
+        "transform": "translate3d(" + x + "px,0,0)"
+      });
+    },
+    _releaseEdge: function(e){
+      e.preventDefault();
+      $(".edge_swipe_content").css({
+        "transform": "",
+        "-webkit-transform": ""
+      });
+      console.log(_this.diffX);
+      if( _this.diffX > 50 ){
+        _this.open();
+      }else if( _this.diffX < -50){
+        _this.close();
+      }
+    },
+
+  };
+
+  return EdgeSwipeHandler;
+
+});
+
+
+},{}],2:[function(require,module,exports){
 module.exports = (function( $ ){
 
   var PageSlider = function(options){
@@ -106,11 +196,11 @@ module.exports = (function( $ ){
 
 
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 // application
 require('./example/main');
 
-},{"./example/main":7}],3:[function(require,module,exports){
+},{"./example/main":8}],4:[function(require,module,exports){
 var $ = require('jquery');
 var Backbone = require('backbone');
 
@@ -143,7 +233,7 @@ module.exports = (function () {
 
 })();
 
-},{"../../../lib/components/pageslider/pageslider":1,"./header/header_model.js":4,"./main_layout.js":9,"./notification/notification_router.js":19,"./qrcode/qr_router.js":22,"./router":23,"backbone":"5kFNoY","jquery":"HlZQrA"}],4:[function(require,module,exports){
+},{"../../../lib/components/pageslider/pageslider":2,"./header/header_model.js":5,"./main_layout.js":10,"./notification/notification_router.js":20,"./qrcode/qr_router.js":23,"./router":24,"backbone":"5kFNoY","jquery":"HlZQrA"}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = (function(){
@@ -163,7 +253,7 @@ module.exports = (function(){
 
 })();
 
-},{"backbone":"5kFNoY"}],5:[function(require,module,exports){
+},{"backbone":"5kFNoY"}],6:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -172,7 +262,7 @@ __p+='<div class="RELATIVE-WRAPPER HEADER-INNER-WRAPPER">\n  <div class="HEADER-
 return __p;
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 module.exports = (function () {
   var HeaderView = Backbone.Marionette.ItemView.extend({
@@ -207,7 +297,7 @@ module.exports = (function () {
   return HeaderView;
 })();
 
-},{"./header_view.html":5,"backbone":"5kFNoY"}],7:[function(require,module,exports){
+},{"./header_view.html":6,"backbone":"5kFNoY"}],8:[function(require,module,exports){
 window.App = {};
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -218,10 +308,18 @@ function onDeviceReady(){
   App.start();
 
 
+  var EdgeSwipeHandler = require('../../../lib/components/edge_swipe/edge_swipe.js')( require('jquery') );
+  var edgeSwipeHandler = new EdgeSwipeHandler({
+    edgeSwipeMasterTarget: "#edge-swipe-container",
+    mainContentSelector: ["#master-container",".app-header"],
+    verticalNavSelector: "#vertical-nav"
+  });
+
+
 };
 
 
-},{"./app.js":3}],8:[function(require,module,exports){
+},{"../../../lib/components/edge_swipe/edge_swipe.js":1,"./app.js":4,"jquery":"HlZQrA"}],9:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -230,7 +328,7 @@ __p+='<header class="APP-HEADER app-header">\n</header>\n<div id="master-contain
 return __p;
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var Backbone = require('backbone');
 var HeaderView = require('./header/header_view');
 module.exports = (function () {
@@ -256,16 +354,16 @@ module.exports = (function () {
   return MainLayout;
 })();
 
-},{"./header/header_view":6,"./main_layout.html":8,"backbone":"5kFNoY"}],10:[function(require,module,exports){
+},{"./header/header_view":7,"./main_layout.html":9,"backbone":"5kFNoY"}],11:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div class="page1">\n  <ul class="A-NAVS" id="main-nav-region">\n    <li>\n      <a href="#qr_reader">\n        <div class="LINKBOX">QR</div>\n      </a>\n    </li>\n    <li>\n      <a href="#notification">\n        <div class="LINKBOX">Notification</div>\n      </a>\n    </li>\n    <li>\n      <a href="index.html?launch_webview=yes">\n        <div class="LINKBOX">open new webview</div>\n      </a>\n    </li>\n  </ul>\n</div>\n';
+__p+='<div class="page1 BACKBONE-PAGE">\n  <ul class="A-NAVS" id="main-nav-region">\n    <li>\n      <a href="#qr_reader">\n        <div class="LINKBOX">QR</div>\n      </a>\n    </li>\n    <li>\n      <a href="#notification">\n        <div class="LINKBOX">Notification</div>\n      </a>\n    </li>\n    <li>\n      <a href="index.html?launch_webview=yes">\n        <div class="LINKBOX">open new webview</div>\n      </a>\n    </li>\n  </ul>\n</div>\n';
 }
 return __p;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var Backbone = require('backbone');
 var MainNavModel = require('./main_nav_model.js');
 module.exports = (function () {
@@ -277,7 +375,7 @@ module.exports = (function () {
 
 })();
 
-},{"./main_nav_model.js":15,"backbone":"5kFNoY"}],12:[function(require,module,exports){
+},{"./main_nav_model.js":16,"backbone":"5kFNoY"}],13:[function(require,module,exports){
 var Backbone = require('backbone');
 var MainNavItemView = require('./main_nav_item_view.js');
 module.exports = (function () {
@@ -289,7 +387,7 @@ module.exports = (function () {
 
 })();
 
-},{"./main_nav_item_view.js":14,"backbone":"5kFNoY"}],13:[function(require,module,exports){
+},{"./main_nav_item_view.js":15,"backbone":"5kFNoY"}],14:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
@@ -302,7 +400,7 @@ __p+='<a href="'+
 return __p;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var Backbone = require('backbone');
 module.exports = (function () {
   var MainNavItemView = Backbone.Marionette.ItemView.extend({
@@ -314,7 +412,7 @@ module.exports = (function () {
 
 })();
 
-},{"./main_nav_item_view.html":13,"backbone":"5kFNoY"}],15:[function(require,module,exports){
+},{"./main_nav_item_view.html":14,"backbone":"5kFNoY"}],16:[function(require,module,exports){
 var Backbone = require('backbone');
 module.exports = (function () {
   var MainNavModel = Backbone.Model.extend({
@@ -323,7 +421,7 @@ module.exports = (function () {
   return MainNavModel;
 })();
 
-},{"backbone":"5kFNoY"}],16:[function(require,module,exports){
+},{"backbone":"5kFNoY"}],17:[function(require,module,exports){
 var Backbone = require('backbone');
 var MainNavCollectionView = require('./main_nav_collection_view.js');
 
@@ -351,7 +449,7 @@ module.exports = (function () {
   return MainNavView;
 })();
 
-},{"./main_nav.html":10,"./main_nav_collection_view.js":12,"backbone":"5kFNoY"}],17:[function(require,module,exports){
+},{"./main_nav.html":11,"./main_nav_collection_view.js":13,"backbone":"5kFNoY"}],18:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = (function () {
@@ -382,16 +480,16 @@ module.exports = (function () {
   return NotificationMainView;
 })();
 
-},{"./notification_main.html":18,"backbone":"5kFNoY"}],18:[function(require,module,exports){
+},{"./notification_main.html":19,"backbone":"5kFNoY"}],19:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div id="#NOTIFICATION">\n<button type="button" class="vibration-btn">vibration</button>\n<button type="button" class="beep-btn">beep</button>\n</div>\n';
+__p+='<div id="#NOTIFICATION" class="BACKBONE-PAGE">\n<button type="button" class="vibration-btn">vibration</button>\n<button type="button" class="beep-btn">beep</button>\n</div>\n';
 }
 return __p;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var Backbone = require('backbone');
 var NotificationMainView = require('./Notification_main_view');
 
@@ -419,16 +517,16 @@ module.exports = (function () {
 
 })();
 
-},{"./Notification_main_view":17,"backbone":"5kFNoY"}],20:[function(require,module,exports){
+},{"./Notification_main_view":18,"backbone":"5kFNoY"}],21:[function(require,module,exports){
 module.exports = function(obj){
 var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 with(obj||{}){
-__p+='<div id="#QR_READER">\n\n<button type="button" class="qrButton">QRコードを読み込む</button>\n<span class="display"></span>\n\n</div>\n';
+__p+='<div id="#QR_READER" class="BACKBONE-PAGE">\n\n<button type="button" class="qrButton">QRコードを読み込む</button>\n<span class="display"></span>\n\n</div>\n';
 }
 return __p;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = (function () {
@@ -460,7 +558,7 @@ module.exports = (function () {
   return Page1View;
 })();
 
-},{"./qr_main.html":20,"backbone":"5kFNoY"}],22:[function(require,module,exports){
+},{"./qr_main.html":21,"backbone":"5kFNoY"}],23:[function(require,module,exports){
 var Backbone = require('backbone');
 var QRMainView = require('./qr_main_view');
 
@@ -487,7 +585,7 @@ module.exports = (function () {
 
 })();
 
-},{"./qr_main_view":21,"backbone":"5kFNoY"}],23:[function(require,module,exports){
+},{"./qr_main_view":22,"backbone":"5kFNoY"}],24:[function(require,module,exports){
 var MainNavView = require('./main_nav/main_nav_view');
 var MainNavCollection = require('./main_nav/main_nav_collection.js');
 var Backbone = require('backbone');
@@ -507,6 +605,15 @@ module.exports = (function(){
         { href: "#qr_reader", text: "QR"},
         { href: "#notification", text: "Notification"},
         { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
       ]);
       var mainNavView = new MainNavView({ navCollection: collection });
 
@@ -522,4 +629,4 @@ module.exports = (function(){
 
 })();
 
-},{"./main_nav/main_nav_collection.js":11,"./main_nav/main_nav_view":16,"backbone":"5kFNoY"}]},{},[2]);
+},{"./main_nav/main_nav_collection.js":12,"./main_nav/main_nav_view":17,"backbone":"5kFNoY"}]},{},[3]);

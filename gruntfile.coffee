@@ -43,7 +43,8 @@ module.exports = (grunt) =>
           options:
               dirs: [
                   "src/css/**",
-                  "src/js/**"
+                  "src/js/**",
+                  "lib/components/**",
               ]
           scss: (path) ->
               ['sass']

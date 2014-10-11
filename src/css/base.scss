@@ -8,6 +8,10 @@ a, a:link, a:visited{
   color: inherit;
 }
 
+ul,ol{
+  list-style: none;
+}
+
 .hide{
   display: none !important;
 }

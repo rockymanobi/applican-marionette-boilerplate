@@ -17,6 +17,15 @@ module.exports = (function(){
         { href: "#qr_reader", text: "QR"},
         { href: "#notification", text: "Notification"},
         { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
+        { href: "index.html?launch_webview=yes", text: "open new webview"},
       ]);
       var mainNavView = new MainNavView({ navCollection: collection });
 
